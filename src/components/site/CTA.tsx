@@ -44,7 +44,7 @@ export function CTA() {
     [message],
   );
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-  const messageIsValid = messageWordCount >= MIN_MESSAGE_WORDS;
+  const messageIsValid = messageWordCount === MIN_MESSAGE_WORDS;
   const formIsValid = Boolean(name.trim()) && emailIsValid && messageIsValid;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
