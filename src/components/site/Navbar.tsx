@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import logo from "@/assets/renderscale-logo.png";
+import logo from "../../assets/renderscale-logo.png";
 
 const links = [
   { href: "#top", label: "Home" },

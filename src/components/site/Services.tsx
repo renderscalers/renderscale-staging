@@ -8,7 +8,7 @@ import {
   Zap,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import servicesCapabilities from "@/assets/services-capabilities.png";
+import servicesCapabilities from "../../assets/services-capabilities.png";
 
 const services = [
   {

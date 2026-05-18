@@ -6,10 +6,10 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "@/components/ui/carousel";
-import hero1 from "@/assets/hero-1.png";
-import hero2 from "@/assets/hero-2.png";
-import hero3 from "@/assets/hero-3.png";
+} from "../ui/carousel";
+import hero1 from "../../assets/hero-1.png";
+import hero2 from "../../assets/hero-2.png";
+import hero3 from "../../assets/hero-3.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 

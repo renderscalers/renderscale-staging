@@ -1,7 +1,6 @@
 import { Send, Globe, AtSign, ArrowUpRight } from "lucide-react";
 const Twitter = Send, Linkedin = Globe, Github = AtSign;
-import logo from "@/assets/renderscale-logo.png";
-
+import logo from "../../assets/renderscale-logo.png";
 const cols = [
   { title: "Studio", links: ["Services","Work","Process","About","Contact"] },
   { title: "Services", links: ["Websites","SaaS Platforms","AI Integrations","Dashboards","Branding"] },
