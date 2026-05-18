@@ -7,6 +7,7 @@ import { Pricing } from "@/components/site/Pricing";
 import { Problem } from "@/components/site/Problem";
 import { Process } from "@/components/site/Process";
 import { Services } from "@/components/site/Services";
+export default App;
 
 export function App() {
   return (
