@@ -8,7 +8,8 @@ type ServerEntry = {
 };
 
 const CONTACT_RECIPIENT = "smrithi@renderscalers.com";
-const MIN_CONTACT_MESSAGE_WORDS = 2000;
+const MIN_CONTACT_MESSAGE_WORDS = 30;
+const MAX_CONTACT_MESSAGE_WORDS = 1000;
 
 let serverEntryPromise: Promise<ServerEntry> | undefined;
 
@@ -83,6 +84,13 @@ async function handleContactRequest(request: Request, env: unknown): Promise<Res
   if (messageWords < MIN_CONTACT_MESSAGE_WORDS) {
     return jsonResponse(
       { error: `Message must be at least ${MIN_CONTACT_MESSAGE_WORDS} words`, words: messageWords },
+      { status: 400 },
+    );
+  }
+
+  if (messageWords > MAX_CONTACT_MESSAGE_WORDS) {
+    return jsonResponse(
+      { error: `Message must not exceed ${MAX_CONTACT_MESSAGE_WORDS} words`, words: messageWords },
       { status: 400 },
     );
   }
