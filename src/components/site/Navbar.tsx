@@ -6,9 +6,9 @@ import logo from "../../assets/renderscale-logo.png";
 const links = [
   { href: "#top", label: "Home" },
   { href: "#services", label: "Services" },
-  { href: "#work", label: "Work" },
+  // { href: "#work", label: "Work" },
+    { href: "#about", label: "About" },
   { href: "#pricing", label: "Pricing" },
-  { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -53,7 +53,7 @@ export function Navbar() {
     >
       <nav
         style={{
-          backgroundColor: scrolled ? "var(--ivory)" : "transparent",
+          backgroundColor: scrolled ? "white" : "transparent",
           borderColor: scrolled
             ? "color-mix(in oklab, var(--ink) 10%, transparent)"
             : "transparent",
@@ -70,54 +70,59 @@ export function Navbar() {
         }`}
       >
         <a href="#top" className="flex items-center gap-3 shrink-0">
-          <span
-            className={`grid place-items-center transition-all duration-500 ${
-              scrolled ? "h-16 w-16 md:h-20 md:w-20" : "h-20 w-20 md:h-24 md:w-24"
-            }`}
-          >
-            <img
-              src={logo}
-              alt="RenderScale"
-              className={`object-contain transition-all duration-500 ${
-                scrolled
-                  ? "h-14 w-14 md:h-18 md:w-18"
-                  : "h-18 w-18 md:h-22 md:w-22 drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
-              } max-h-full max-w-full`}
-            />
-          </span>
-          <span
-            className={`font-display font-semibold tracking-tight hidden sm:block transition-all duration-500 ${
+        <span
+          className={`grid place-items-center transition-all duration-500 ${
+            scrolled ? "h-16 w-16 md:h-20 md:w-20" : "h-20 w-20 md:h-24 md:w-24"
+          }`}
+        >
+          <img
+            src={logo}
+            alt="RenderScale"
+            className={`object-contain transition-all duration-500 ${
               scrolled
-                ? "text-lg md:text-xl text-ink"
-                : "text-xl md:text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
-            }`}
-          >
-            RenderScale
-          </span>
+                ? "h-14 w-14 md:h-18 md:w-18"
+                : "h-18 w-18 md:h-22 md:w-22 drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
+            } max-h-full max-w-full`}
+          />
+        </span>
+        <span
+          className={`font-display font-semibold tracking-tight hidden sm:block transition-all duration-500 ${
+            scrolled
+              ? "text-lg md:text-xl text-ink"
+              : "text-xl md:text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
+          }`}
+        >
+          RenderScale
+        </span>
         </a>
-
         <ul className="hidden md:flex items-center gap-1 mx-auto text-sm">
-          {links.map((l) => {
-            const isActive = active === l.href;
-            return (
+        {links.map((l) => {
+        const isActive = active === l.href;
+
+        return (
               <li key={l.href}>
-                <a
-                  href={l.href}
-                  className={`relative px-4 py-2 rounded-full font-medium transition-all duration-300 ${
-                    scrolled
-                      ? isActive
-                        ? "text-white bg-sage shadow-soft"
-                        : "text-ink/70 hover:text-ink hover:bg-ink/5"
+                      <a
+                      href={l.href}
+                      className={`relative px-4 py-2 font-medium transition-all duration-300 ${
+                      scrolled
+                      ? "text-ink"
                       : isActive
-                        ? "text-white bg-white/20 backdrop-blur-sm ring-1 ring-white/30"
-                        : "text-white/80 hover:text-white hover:bg-white/10"
-                  }`}
-                >
-                  {l.label}
+                      ? "text-white"
+                      : "hover:text-white"
+                      }`}
+                      >
+                      {l.label}
+
+                      {isActive && (
+                      <span
+                      className="absolute left-0 bottom-0 h-[3px] w-full rounded-none"
+                      style={{ backgroundColor: "oklch(0.68 0.12 168)" }}
+                      />
+                      )}
                 </a>
-              </li>
-            );
-          })}
+                </li>
+                );
+               })}
         </ul>
 
         <a
@@ -125,7 +130,7 @@ export function Navbar() {
           className={`hidden md:inline-flex shrink-0 items-center gap-1.5 rounded-full text-sm font-medium transition-all duration-500 hover:scale-[1.03] whitespace-nowrap leading-none px-5 py-2.5 ${
             scrolled
               ? "bg-sage text-white shadow-glow"
-              : "bg-white text-ink shadow-elevated"
+              : "border border-white text-white hover:bg-white hover:text-ink"
           }`}
         >
           Book a Call <ArrowUpRight className="h-3.5 w-3.5" />
@@ -136,7 +141,7 @@ export function Navbar() {
           className={`md:hidden ml-auto h-10 w-10 rounded-full grid place-items-center transition-colors duration-300 ${
             scrolled
               ? "bg-ink/5 text-ink hover:bg-ink/10"
-              : "bg-white/15 text-white border border-white/25 backdrop-blur"
+              : "border border-white text-white hover:bg-white/10"
           }`}
           aria-label="Menu"
         >

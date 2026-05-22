@@ -3,27 +3,28 @@ import type { FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Globe, Mail, MapPin, Phone, Send } from "lucide-react";
 
-const MIN_MESSAGE_WORDS = 2000;
+const MIN_MESSAGE_WORDS = 30;
+const MAX_MESSAGE_WORDS = 1000;
 
 const contactItems = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@renderscale.com",
-    href: "mailto:hello@renderscale.com",
+    value: "smrithi@renderscalers.com",
+    href: "mailto:smrithi@renderscalers.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+91 9620054324",
-    href: "tel:+919620054324",
+    value: "+91 9380213272",
+    href: "http://wa.me/9380213272",
   },
-  {
-    icon: Globe,
-    label: "LinkedIn",
-    value: "linkedin.com/company/renderscale",
-    href: "https://www.linkedin.com/company/renderscale",
-  },
+  // {
+  //   icon: Globe,
+  //   label: "LinkedIn",
+  //   value: "linkedin.com/company/renderscale",
+  //   href: "https://www.linkedin.com/company/renderscale",
+  // },
   {
     icon: MapPin,
     label: "Location",
@@ -44,7 +45,7 @@ export function CTA() {
     [message],
   );
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-  const messageIsValid = messageWordCount === MIN_MESSAGE_WORDS;
+  const messageIsValid = messageWordCount >= MIN_MESSAGE_WORDS && messageWordCount <= MAX_MESSAGE_WORDS;
   const formIsValid = Boolean(name.trim()) && emailIsValid && messageIsValid;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -63,7 +64,11 @@ export function CTA() {
     }
     if (!messageIsValid) {
       setStatus("error");
-      setStatusMessage(`Message must be at least ${MIN_MESSAGE_WORDS.toLocaleString()} words.`);
+      if (messageWordCount < MIN_MESSAGE_WORDS) {
+        setStatusMessage(`Message must be at least ${MIN_MESSAGE_WORDS} words. Currently ${messageWordCount} word${messageWordCount === 1 ? "" : "s"}.`);
+      } else {
+        setStatusMessage(`Message must not exceed ${MAX_MESSAGE_WORDS} words. Currently ${messageWordCount} word${messageWordCount === 1 ? "" : "s"}.`);
+      }
       return;
     }
 
@@ -193,7 +198,7 @@ export function CTA() {
                   className="min-h-48 resize-y rounded-lg border border-white/80 bg-white/75 px-5 py-4 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-sage focus:ring-2 focus:ring-sage/20"
                 />
                 <span className={`text-sm ${messageIsValid ? "text-sage-deep" : "text-muted-foreground"}`}>
-                  {messageWordCount.toLocaleString()} / {MIN_MESSAGE_WORDS.toLocaleString()} words minimum
+                  {messageWordCount.toLocaleString()} / {MAX_MESSAGE_WORDS.toLocaleString()} words
                 </span>
               </label>
 
