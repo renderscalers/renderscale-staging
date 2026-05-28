@@ -69,7 +69,7 @@ export function Navbar() {
           scrolled ? "py-2.5" : "py-4"
         }`}
       >
-        <a href="#top" className="flex items-center gap-3 shrink-0">
+          <a href="#top" className="flex items-center gap-3 shrink-0">
         <span
           className={`grid place-items-center transition-all duration-500 ${
             scrolled ? "h-16 w-16 md:h-20 md:w-20" : "h-20 w-20 md:h-24 md:w-24"
