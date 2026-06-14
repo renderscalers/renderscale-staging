@@ -20,7 +20,7 @@ export function App() {
       <Pricing />
       <CTA />
       <Footer />
-      <ChatbotWidget />
+      {/* <ChatbotWidget /> */}
     </main>
   );
 }

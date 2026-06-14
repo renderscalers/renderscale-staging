@@ -44,7 +44,8 @@ export function Hero() {
         <CarouselContent className="ml-0">
           {showcases.map((s, idx) => (
             <CarouselItem key={s.title} className="pl-0 basis-full">
-              <div className="relative w-full h-[70vh] min-h-[460px] max-h-[640px]">
+              <div className="relative z-10 flex h-full items-center pt-24 md:pt-28">
+              <div className="mx-auto max-w-5xl px-6 text-center">
                 <img
                   src={s.img}
                   alt={s.title}
@@ -52,9 +53,8 @@ export function Hero() {
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 {/* Dark overlay for text legibility */}
-                <div className="absolute inset-0 bg-gradient-to-b from-ink-deep/80 via-ink-deep/55 to-ink-deep/85" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/55 to-black/80" />
                 <div aria-hidden className="absolute inset-0 grid-pattern opacity-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
-
                 {/* Text content */}
                 <div className="relative z-10 flex h-full items-center">
                   <div className="mx-auto max-w-5xl px-6 text-center pt-24">
@@ -95,7 +95,7 @@ export function Hero() {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.7, ease, delay: 0.3 }}
-                      className="mt-9 flex items-center justify-center gap-3 flex-wrap"
+                      className="mt-9 flex items-center justify-center gap-3 flex-wrap" style={{ marginBottom: "1.5rem" }}
                     >
                       <a
                         href="#contact"
@@ -113,6 +113,7 @@ export function Hero() {
                     </motion.div>
 
                   </div>
+                </div>
                 </div>
               </div>
             </CarouselItem>

@@ -13,7 +13,7 @@ const pains = [
 
 export function Problem() {
   return (
-    <section className="relative overflow-hidden bg-background py-14 md:py-20">
+    <section className="relative overflow-hidden bg-background py-6" style={{ backgroundColor: "#fff" }}>
       <div aria-hidden className="absolute inset-0 dot-pattern opacity-40 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
       <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading

@@ -1,10 +1,7 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Globe, Mail, MapPin, Phone, Send } from "lucide-react";
-
-const MIN_MESSAGE_WORDS = 30;
-const MAX_MESSAGE_WORDS = 1000;
 
 const contactItems = [
   {
@@ -36,66 +33,98 @@ const contactItems = [
 export function CTA() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
 
-  const messageWordCount = useMemo(
-    () => message.trim().split(/\s+/).filter(Boolean).length,
-    [message],
-  );
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-  const messageIsValid = messageWordCount >= MIN_MESSAGE_WORDS && messageWordCount <= MAX_MESSAGE_WORDS;
-  const formIsValid = Boolean(name.trim()) && emailIsValid && messageIsValid;
+  const phoneIsValid = /^[6-9]\d{9}$/.test(phone.trim());
+  const messageIsValid = Boolean(message.trim());
+  const formIsValid =
+  Boolean(name.trim()) &&
+  emailIsValid &&
+  phoneIsValid &&
+  messageIsValid;
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwhdYIuzsTfAdXtk39kcnwFbUxW3qbMeYgLWfU3NjpPXpeM_NO4cDaxD-xL3UuCkmfMwQ/exec";
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setStatusMessage("");
+async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
 
-    if (!name.trim()) {
-      setStatus("error");
-      setStatusMessage("Name is required.");
-      return;
-    }
-    if (!emailIsValid) {
-      setStatus("error");
-      setStatusMessage("Enter a valid email address.");
-      return;
-    }
-    if (!messageIsValid) {
-      setStatus("error");
-      if (messageWordCount < MIN_MESSAGE_WORDS) {
-        setStatusMessage(`Message must be at least ${MIN_MESSAGE_WORDS} words. Currently ${messageWordCount} word${messageWordCount === 1 ? "" : "s"}.`);
-      } else {
-        setStatusMessage(`Message must not exceed ${MAX_MESSAGE_WORDS} words. Currently ${messageWordCount} word${messageWordCount === 1 ? "" : "s"}.`);
-      }
-      return;
-    }
+  setStatusMessage("");
 
-    setStatus("sending");
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
-      });
-      const payload = (await response.json().catch(() => ({}))) as { error?: string };
-
-      if (!response.ok) {
-        throw new Error(payload.error ?? "Unable to send your message right now.");
-      }
-
-      setStatus("success");
-      setStatusMessage("Thanks, your message has been sent.");
-      setName("");
-      setEmail("");
-      setMessage("");
-    } catch (error) {
-      setStatus("error");
-      setStatusMessage(error instanceof Error ? error.message : "Unable to send your message right now.");
-    }
+  if (!name.trim()) {
+    setStatus("error");
+    setStatusMessage("Name is required.");
+    return;
   }
 
+  if (!emailIsValid) {
+    setStatus("error");
+    setStatusMessage("Enter a valid email address.");
+    return;
+  }
+  
+  if (!phoneIsValid) {
+    setStatus("error");
+    setStatusMessage("Enter a valid 10-digit phone number.");
+    return;
+  }
+  if (!message.trim()) {
+    setStatus("error");
+    setStatusMessage("Message is required.");
+    return;
+  }
+
+  setStatus("sending");
+
+  try {
+    const formData = new FormData();
+    const ipInfo = await fetch("https://ipapi.co/json/")
+    .then(res => res.json());
+
+
+for (const [key, value] of formData.entries()) {
+  console.log(key, value);
+}
+console.log(formData, "Before fetch");
+
+formData.append("name", name);
+formData.append("email", email);
+formData.append("phone", phone);
+formData.append("message", message);
+formData.append("ip", ipInfo.ip);
+formData.append("city", ipInfo.city);
+formData.append("region", ipInfo.region);
+formData.append("country", ipInfo.country_name);
+formData.append("isp", ipInfo.org);
+
+for (const [key, value] of formData.entries()) {
+  console.log(key, value);
+}
+
+await fetch(WEB_APP_URL, {
+  method: "POST",
+  body: formData,
+  mode: "no-cors"
+});
+console.log("Fetch completed");
+    setStatus("success");
+    setStatusMessage("Thanks, your message has been sent.");
+
+    setName("");
+    setEmail("");
+    setMessage("");
+
+  } catch (error) {
+    console.error(error);
+
+    setStatus("error");
+    setStatusMessage(
+      "Unable to send your message right now."
+    );
+  }
+}
   return (
     <section
       id="contact"
@@ -185,6 +214,24 @@ export function CTA() {
                   className="h-14 rounded-lg border border-white/80 bg-white/75 px-5 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-sage focus:ring-2 focus:ring-sage/20"
                 />
               </label>
+              
+              <label className="grid gap-3">
+                  <span className="text-lg font-semibold text-foreground">
+                  Phone Number
+                  </span>
+                  <input
+                  name="phone"
+                  required
+                  type="tel"
+                  value={phone}
+                  onChange={(event) =>
+                  setPhone(event.target.value.replace(/\D/g, ""))
+                  }
+                  placeholder="9876543210"
+                  maxLength={10}
+                  className="h-14 rounded-lg border border-white/80 bg-white/75 px-5 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-sage focus:ring-2 focus:ring-sage/20"
+                  />
+              </label>
 
               <label className="grid gap-3">
                 <span className="text-lg font-semibold text-foreground">Message</span>
@@ -197,9 +244,6 @@ export function CTA() {
                   aria-invalid={Boolean(message) && !messageIsValid}
                   className="min-h-48 resize-y rounded-lg border border-white/80 bg-white/75 px-5 py-4 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-sage focus:ring-2 focus:ring-sage/20"
                 />
-                <span className={`text-sm ${messageIsValid ? "text-sage-deep" : "text-muted-foreground"}`}>
-                  {messageWordCount.toLocaleString()} / {MAX_MESSAGE_WORDS.toLocaleString()} words
-                </span>
               </label>
 
               {statusMessage && (

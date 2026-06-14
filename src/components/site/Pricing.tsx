@@ -31,7 +31,7 @@ const tiers = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="relative bg-background py-14 md:py-20">
+    <section id="pricing" className="relative bg-background py-14" style={{ backgroundColor: "#fff" }}>
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Pricing"
