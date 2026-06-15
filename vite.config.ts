@@ -38,7 +38,7 @@ function tanstackVirtualResolvePlugin(name: string) {
 
 export default defineConfig({
   plugins: [tanstackStart(), react(), cloudflare()],
-  base: "/renderscale-staging/",
+  base: "./",
   optimizeDeps: {
     noDiscovery: true,
     entries: [path.resolve(__dirname, "./src/router.tsx")],
